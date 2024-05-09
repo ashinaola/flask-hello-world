@@ -1,14 +1,15 @@
-FROM python:latest
+FROM python:3.10-alpine
 
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
+COPY ./requirements.txt /app/requirements.txt
 
-#RUN apt-get update
-#RUN apt-get install -y python3 python3-pip
+RUN python -m venv .venv && \
+    #source .venv/bin/activate && \
+    #pip install -r requirements.txt && \
+    pip freeze
 
-RUN pip install -r requirements.txt
+COPY . /app
 
-COPY . .
-
-CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
+ENTRYPOINT [ "python" ]
+CMD [ "app.py" ]
